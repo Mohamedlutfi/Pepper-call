@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Pepper</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0D0D1A;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+         margin: 0;
+        }
+
+        #startScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .robot-icon {
+            font-size: 80px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        p {
+            color: #B0BEC5;
+            font-size: 15px;
+        }
+
+        #callButton {
+            background: linear-gradient(135deg, #00E676, #00BFA5);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 48px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(0,230,118,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #callButton:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 32px rgba(0,230,118,0.5);
+        }
+
+        #callScreen {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        #remoteVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #1A1A2E;
+        }
+
+        #localVideo {
+            position: absolute;
+            bottom: 100px;
+            right: 16px;
+            width: 120px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        #topBar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(to bottom, rgba(13,13,26,0.9), transparent);
+        }
+
+        #statusText {
+            font-size: 14px;
+            color: #00E676;
+            margin-top: 4px;
+        }
+
+        #timerText {
+            font-size: 13px;
+            color: #B0BEC5;
+            margin-top: 2px;
+        }
+
+        #bottomBar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(to top, rgba(13,13,26,0.9), transparent);
+        }
+
+        #endButton {
+            background: #E53935;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 68px;
+            height: 68px;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(229,57,53,0.4);
+        }
+
+        #muteButton {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 24px;
+            align-self: center;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Start Screen -->
+<div id="startScreen">
+    <div class="robot-icon">🤖</div>
+    <h1>Call Pepper</h1>
+    <p>Enter the PIN shown on Pepper's screen</p>
+<input
+    id="callerNameInput"
+    type="text"
+    placeholder="Your name"
+    maxlength="20"
+    style="
+        background: rgba(255,255,255,0.1);
+        border: 2px solid rgba(255,255,255,0.2);
+        border-radius: 16px;
+        padding: 16px 24px;
+        font-size: 18px;
+        color: white;
+        text-align: center;
+        width: 220px;
+        outline: none;
+    "
+/>
+    <input 
+        id="pinInput"
+        type="number" 
+        placeholder="Enter PIN"
+        maxlength="4"
+        style="
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-size: 28px;
+            color: white;
+            text-align: center;
+            width: 220px;
+            letter-spacing: 1px;
+            outline: none;
+        "
+    />
+
+    <div id="pinError" style="color:#FF5252; font-size:14px; display:none;">
+        ❌ Wrong PIN. Check Pepper's screen and try again.
+    </div>
+
+    <button id="callButton" onclick="startCall()">📞 Start Call</button>
+</div>
+
+<!-- Call Screen -->
+<div id="callScreen">
+    <video id="remoteVideo" autoplay playsinline></video>
+    <video id="localVideo" autoplay playsinline muted></video>
+
+    <div id="topBar">
+        <h2 style="font-size:20px;">🤖 Pepper Robot</h2>
+        <div id="statusText">Connecting...</div>
+        <div id="timerText">00:00</div>
+    </div>
+
+    <div id="bottomBar">
+        <button id="muteButton" onclick="toggleMute()">🎤</button>
+        <button id="endButton" onclick="endCall()">✕</button>
+    </div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+    // ===== PASTE YOUR FIREBASE CONFIG HERE =====
+const firebaseConfig = {
+    apiKey: "AIzaSyC03EyblYIQ5pEJ_3naFe-5Wr36YlQFXco",
+    authDomain: "pepper-video-call.firebaseapp.com",
+    databaseURL: "https://pepper-video-call-default-rtdb.firebaseio.com",
+    projectId: "pepper-video-call",
+    storageBucket: "pepper-video-call.firebasestorage.app",
+    messagingSenderId: "1004354627283",
+    appId: "1:1004354627283:web:86b94b9fde68f7eaf6d626"
+};
+    // ===========================================
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const roomRef = db.ref("rooms/pepper-room");
+    const maxBrowserReconnectAttempts = 5;
+
+
+    let peerConnection;
+    let localStream;
+    let isMuted = false;
+    let timerInterval;
+    let callSeconds = 0;
+    let browserReconnectAttempts = 0;
+
+   const iceServers = {
+    iceServers: [
+        { urls: "stun:stun.l.google.com:19302" },
+        { urls: "stun:stun1.l.google.com:19302" },
+        { urls: "stun:stun2.l.google.com:19302" }
+    ]
+};
+async function startCall() {
+    const pin = document.getElementById("pinInput").value.trim();
+    
+    if (pin.length !== 4) {
+        document.getElementById("pinError").style.display = "block";
+        document.getElementById("pinError").textContent = "❌ Please enter a 4-digit PIN";
+        return;
+    }
+
+    document.getElementById("pinError").style.display = "none";
+    document.getElementById("startScreen").style.display = "none";
+    document.getElementById("callScreen").style.display = "block";
+
+    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    document.getElementById("localVideo").srcObject = localStream;
+
+    peerConnection = new RTCPeerConnection(iceServers);
+
+    // Send call request with PIN
+const callerName = document.getElementById("callerNameInput").value.trim() || "Unknown Caller";
+roomRef.child("call_request").set({ ready: true, pin: pin, callerName: callerName });
+
+    // Listen for PIN error
+    roomRef.child("pin_error").on("value", (snapshot) => {
+        if (snapshot.exists()) {
+            peerConnection?.close();
+            roomRef.remove();
+            document.getElementById("callScreen").style.display = "none";
+            document.getElementById("startScreen").style.display = "flex";
+            document.getElementById("pinError").style.display = "block";
+            document.getElementById("pinError").textContent = "❌ Wrong PIN. Check Pepper's screen.";
+        }
+    });
+
+    localStream.getTracks().forEach(track => {
+        peerConnection.addTrack(track, localStream);
+    });
+
+    peerConnection.ontrack = (event) => {
+        document.getElementById("remoteVideo").srcObject = event.streams[0];
+        setStatus("In Call ✅", "#00E676");
+        startTimer();
+    };
+
+    peerConnection.onicecandidate = (event) => {
+        if (event.candidate) {
+            roomRef.child("caller_candidates").push({
+                sdpMid: event.candidate.sdpMid,
+                sdpMLineIndex: event.candidate.sdpMLineIndex,
+                sdp: event.candidate.candidate
+            });
+        }
+    };
+
+peerConnection.oniceconnectionstatechange = () => {
+    const state = peerConnection.iceConnectionState;
+    if (state === "disconnected" || state === "failed") {
+        setStatus("Reconnecting...", "#FFC107");
+        tryReconnect();
+    } else if (state === "closed") {
+        setStatus("Call Ended", "#FF5252");
+    }
+};
+
+    setStatus("Waiting for Pepper...", "#B0BEC5");
+    roomRef.child("offer").on("value", async (snapshot) => {
+        if (!snapshot.exists()) return;
+        const offer = snapshot.val();
+        if (peerConnection.signalingState !== "stable") return;
+
+        await peerConnection.setRemoteDescription(
+            new RTCSessionDescription({ type: "offer", sdp: offer.sdp })
+        );
+
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+
+        roomRef.child("answer").set({ type: "answer", sdp: answer.sdp });
+        setStatus("Connecting...", "#FFC107");
+    });
+
+    roomRef.child("pepper_candidates").on("child_added", (snapshot) => {
+        const c = snapshot.val();
+        peerConnection.addIceCandidate(new RTCIceCandidate({
+            sdpMid: c.sdpMid,
+            sdpMLineIndex: c.sdpMLineIndex,
+            candidate: c.sdp
+        }));
+    });
+    roomRef.child("call_rejected").on("value", (snapshot) => {
+    if (snapshot.exists()) {
+        peerConnection?.close();
+        roomRef.remove();
+        document.getElementById("callScreen").style.display = "none";
+        document.getElementById("startScreen").style.display = "flex";
+        setStatus("Call was declined", "#FF5252");
+    }
+});
+}
+
+    function toggleMute() {
+        isMuted = !isMuted;
+        localStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
+        document.getElementById("muteButton").textContent = isMuted ? "🔇" : "🎤";
+    }
+
+    function endCall() {
+        peerConnection?.close();
+        roomRef.remove();
+        clearInterval(timerInterval);
+        document.getElementById("callScreen").style.display = "none";
+        document.getElementById("startScreen").style.display = "flex";
+    }
+
+    function setStatus(text, color) {
+        const el = document.getElementById("statusText");
+        el.textContent = text;
+        el.style.color = color;
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            callSeconds++;
+            const m = String(Math.floor(callSeconds / 60)).padStart(2, "0");
+            const s = String(callSeconds % 60).padStart(2, "0");
+            document.getElementById("timerText").textContent = `${m}:${s}`;
+        }, 1000);
+    }
+
+
+function tryReconnect() {
+    if (browserReconnectAttempts >= maxBrowserReconnectAttempts) {
+        setStatus("Call Ended — could not reconnect", "#FF5252");
+        setTimeout(() => {
+            endCall();
+        }, 2000);
+        return;
+    }
+
+    browserReconnectAttempts++;
+    setStatus(`Reconnecting... attempt ${browserReconnectAttempts} of ${maxBrowserReconnectAttempts}`, "#FFC107");
+
+    setTimeout(() => {
+        // Clean up old connection
+        peerConnection.close();
+        peerConnection = new RTCPeerConnection(iceServers);
+
+        localStream.getTracks().forEach(track => {
+            peerConnection.addTrack(track, localStream);
+        });
+
+        peerConnection.ontrack = (event) => {
+            document.getElementById("remoteVideo").srcObject = event.streams[0];
+            setStatus("In Call", "#00E676");
+            browserReconnectAttempts = 0;
+        };
+
+        peerConnection.onicecandidate = (event) => {
+            if (event.candidate) {
+                roomRef.child("caller_candidates").push({
+                    sdpMid: event.candidate.sdpMid,
+                    sdpMLineIndex: event.candidate.sdpMLineIndex,
+                    sdp: event.candidate.candidate
+                });
+            }
+        };
+
+        peerConnection.oniceconnectionstatechange = () => {
+            const state = peerConnection.iceConnectionState;
+            if (state === "disconnected" || state === "failed") {
+                tryReconnect();
+            }
+        };
+
+        // Wait for new offer from Pepper
+        roomRef.child("offer").on("value", async (snapshot) => {
+            if (!snapshot.exists()) return;
+            const offer = snapshot.val();
+            if (peerConnection.signalingState !== "stable") return;
+
+            await peerConnection.setRemoteDescription(
+                new RTCSessionDescription({ type: "offer", sdp: offer.sdp })
+            );
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            roomRef.child("answer").set({ type: "answer", sdp: answer.sdp });
+        });
+
+    }, 3000);
+}
+</script>
+
+</body>
+</html>
