@@ -330,14 +330,16 @@ peerConnection.oniceconnectionstatechange = () => {
             candidate: c.sdp
         }));
     });
-    roomRef.child("call_rejected").on("value", (snapshot) => {
+roomRef.child("call_rejected").on("value", (snapshot) => {
     if (snapshot.exists()) {
         peerConnection?.close();
         roomRef.remove();
         document.getElementById("callScreen").style.display = "none";
         document.getElementById("startScreen").style.display = "flex";
-        setStatus("Call was declined", "#FF5252");
+        setStatus("No answer — try again", "#FF5252");
+        clearInterval(timerInterval);
     }
+});
 });
 }
 
