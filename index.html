@@ -369,7 +369,23 @@ peerConnection.oniceconnectionstatechange = () => {
         }, 1000);
     }
 
+async function sendPushNotification(callerName) {
+    // Get Pepper's FCM token from Firebase
+    const tokenSnapshot = await db.ref("pepper_fcm_token").get();
+    if (!tokenSnapshot.exists()) {
+        console.log("Pepper FCM token not found");
+        return;
+    }
+    const token = tokenSnapshot.val();
 
+    // Store notification request in Firebase
+    // A Cloud Function will handle sending the actual FCM notification
+    db.ref("notification_request").set({
+        token: token,
+        callerName: callerName,
+        timestamp: Date.now()
+    });
+}
 function tryReconnect() {
     if (browserReconnectAttempts >= maxBrowserReconnectAttempts) {
         setStatus("Call Ended — could not reconnect", "#FF5252");
