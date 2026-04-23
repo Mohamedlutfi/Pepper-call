@@ -258,8 +258,9 @@ async function startCall() {
 
     peerConnection = new RTCPeerConnection(iceServers);
 
-    // Send call request with PIN
+    // Send call request with Name
 const callerName = document.getElementById("callerNameInput").value.trim() || "Unknown Caller";
+await sendPushNotification(callerName);
 roomRef.child("call_request").set({ ready: true, callerName: callerName });
 
     // Listen for PIN error
