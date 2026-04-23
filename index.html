@@ -348,14 +348,20 @@ roomRef.child("call_rejected").on("value", (snapshot) => {
         localStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
         document.getElementById("muteButton").textContent = isMuted ? "🔇" : "🎤";
     }
-
-    function endCall() {
-        peerConnection?.close();
-        roomRef.remove();
-        clearInterval(timerInterval);
-        document.getElementById("callScreen").style.display = "none";
-        document.getElementById("startScreen").style.display = "flex";
+function endCall() {
+    peerConnection?.close();
+    roomRef.remove();
+    roomRef.child("call_cancelled").set(true);
+    clearInterval(timerInterval);
+    callSeconds = 0;
+    document.getElementById("callScreen").style.display = "none";
+    document.getElementById("startScreen").style.display = "flex";
+    document.getElementById("remoteVideo").srcObject = null;
+    document.getElementById("localVideo").srcObject = null;
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
     }
+}
 
     function setStatus(text, color) {
         const el = document.getElementById("statusText");
