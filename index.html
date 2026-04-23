@@ -6,7 +6,6 @@
     <title>Call Pepper</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             background: #0D0D1A;
             color: white;
@@ -158,7 +157,7 @@
 <div id="startScreen">
     <div class="robot-icon">🤖</div>
     <h1>Call Pepper</h1>
-    <p>Enter the PIN shown on Pepper's screen</p>
+    <p>Enter Your name to start a call</p>
 <input
     id="callerNameInput"
     type="text"
@@ -176,12 +175,9 @@
         outline: none;
     "
 />
-
-
     <div id="pinError" style="color:#FF5252; font-size:14px; display:none;">
         ❌ Wrong PIN. Check Pepper's screen and try again.
     </div>
-
     <button id="callButton" onclick="startCall()">📞 Start Call</button>
 </div>
 
