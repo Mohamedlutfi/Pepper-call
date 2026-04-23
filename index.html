@@ -176,24 +176,7 @@
         outline: none;
     "
 />
-    <input 
-        id="pinInput"
-        type="number" 
-        placeholder="Enter PIN"
-        maxlength="4"
-        style="
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 16px;
-            padding: 16px 24px;
-            font-size: 28px;
-            color: white;
-            text-align: center;
-            width: 220px;
-            letter-spacing: 1px;
-            outline: none;
-        "
-    />
+
 
     <div id="pinError" style="color:#FF5252; font-size:14px; display:none;">
         ❌ Wrong PIN. Check Pepper's screen and try again.
@@ -271,15 +254,6 @@ const iceServers = {
     ]
 };
 async function startCall() {
-    const pin = document.getElementById("pinInput").value.trim();
-    
-    if (pin.length !== 4) {
-        document.getElementById("pinError").style.display = "block";
-        document.getElementById("pinError").textContent = "❌ Please enter a 4-digit PIN";
-        return;
-    }
-
-    document.getElementById("pinError").style.display = "none";
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("callScreen").style.display = "block";
 
@@ -290,7 +264,7 @@ async function startCall() {
 
     // Send call request with PIN
 const callerName = document.getElementById("callerNameInput").value.trim() || "Unknown Caller";
-roomRef.child("call_request").set({ ready: true, pin: pin, callerName: callerName });
+roomRef.child("call_request").set({ ready: true, callerName: callerName });
 
     // Listen for PIN error
     roomRef.child("pin_error").on("value", (snapshot) => {
