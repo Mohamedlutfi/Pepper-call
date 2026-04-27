@@ -191,7 +191,76 @@
         <div id="statusText">Connecting...</div>
         <div id="timerText">00:00</div>
     </div>
+<!-- Pepper Controls -->
+<div id="controlPanel" style="
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+">
+    <button class="controlBtn" onclick="sendCommand('wave')" style="
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+    ">👋</button>
 
+    <button class="controlBtn" onclick="sendCommand('dance')" style="
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+    ">💃</button>
+
+    <button class="controlBtn" onclick="sendCommand('bow')" style="
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+    ">🙇</button>
+
+    <button class="controlBtn" onclick="sendCommand('happy')" style="
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+    ">😊</button>
+
+    <button class="controlBtn" onclick="sendCommand('sad')" style="
+        background: rgba(255,255,255,0.15);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+    ">😢</button>
+</div>
     <div id="bottomBar">
         <button id="muteButton" onclick="toggleMute()">🎤</button>
         <button id="endButton" onclick="endCall()">✕</button>
@@ -484,6 +553,12 @@ function pemToArrayBuffer(pem) {
         view[i] = binary.charCodeAt(i);
     }
     return buffer;
+}
+function sendCommand(command) {
+    roomRef.child("pepper_command").set({
+        command: command,
+        timestamp: Date.now()
+    });
 }
 function tryReconnect() {
     if (browserReconnectAttempts >= maxBrowserReconnectAttempts) {
