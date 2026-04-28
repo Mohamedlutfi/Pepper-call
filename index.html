@@ -432,7 +432,11 @@ document.getElementById("localVideo").srcObject = localStream;
     // Send call request with Name
 const callerName = document.getElementById("callerNameInput").value.trim() || "Unknown Caller";
 callerDisplayName = callerName;
-roomRef.child("call_request").set({ ready: true, callerName: callerName });
+roomRef.child("call_request").set({ 
+    ready: true, 
+    callerName: callerName,
+    timestamp: Date.now()
+});
 
     // Listen for PIN error
     roomRef.child("pin_error").on("value", (snapshot) => {
