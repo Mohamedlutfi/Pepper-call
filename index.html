@@ -383,7 +383,11 @@ roomRef.child("call_request").set({ ready: true, callerName: callerName });
 
 peerConnection.oniceconnectionstatechange = () => {
     const state = peerConnection.iceConnectionState;
-    if (state === "disconnected" || state === "failed") {
+    console.log("ICE state:", state);
+    if (state === "connected" || state === "completed") {
+        setStatus("In Call ✅", "#00E676");
+        browserReconnectAttempts = 0;
+    } else if (state === "disconnected" || state === "failed") {
         setStatus("Reconnecting...", "#FFC107");
         tryReconnect();
     } else if (state === "closed") {
@@ -598,10 +602,11 @@ function tryReconnect() {
             peerConnection.addTrack(track, localStream);
         });
 
-        peerConnection.ontrack = (event) => {
-            document.getElementById("remoteVideo").srcObject = event.streams[0];
-            setStatus("In Call", "#00E676");
-            browserReconnectAttempts = 0;
+       peerConnection.ontrack = (event) => {
+        document.getElementById("remoteVideo").srcObject = event.streams[0];
+        setStatus("In Call ✅", "#00E676");
+        browserReconnectAttempts = 0;
+        startTimer();
         };
 
         peerConnection.onicecandidate = (event) => {
