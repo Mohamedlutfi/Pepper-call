@@ -340,7 +340,7 @@ localStream = await navigator.mediaDevices.getUserMedia({
         autoGainControl: true
     }
 });
-});    document.getElementById("localVideo").srcObject = localStream;
+document.getElementById("localVideo").srcObject = localStream;
 
     peerConnection = new RTCPeerConnection(iceServers);
 
