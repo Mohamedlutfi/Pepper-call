@@ -356,6 +356,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
 <script>
+    let isListeningForMessages = false;
     // ===== PASTE YOUR FIREBASE CONFIG HERE =====
 const firebaseConfig = {
     apiKey: "AIzaSyC03EyblYIQ5pEJ_3naFe-5Wr36YlQFXco",
@@ -542,13 +543,15 @@ function sendMessage() {
 }
 
 function listenForMessages() {
+    if (isListeningForMessages) return;
+    isListeningForMessages = true;
+
     roomRef.child("chat").on("child_added", (snapshot) => {
         const data = snapshot.val();
         if (!data) return;
         addMessageToChat(data.sender, data.message);
     });
 }
-
 function addMessageToChat(sender, message) {
     const isPepper = sender === "Pepper";
     const messagesDiv = document.getElementById("chatMessages");
@@ -588,6 +591,8 @@ function endCall() {
     roomRef.child("call_cancelled").set(true);
     clearInterval(timerInterval);
     callSeconds = 0;
+    isListeningForMessages = false;
+    roomRef.child("chat").off();
     document.getElementById("callScreen").style.display = "none";
     document.getElementById("startScreen").style.display = "flex";
     document.getElementById("waitingOverlay").style.display = "flex";
