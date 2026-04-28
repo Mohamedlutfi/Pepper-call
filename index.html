@@ -185,6 +185,22 @@
 <div id="callScreen">
    <video id="remoteVideo" autoplay playsinline disablePictureInPicture 
     style="width:100%;height:100%;object-fit:cover;background:#1A1A2E;"></video>
+    <div id="waitingOverlay" style="
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0D0D1A;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+">
+    <div style="font-size: 80px; animation: float 3s ease-in-out infinite;">🤖</div>
+    <p style="color: #B0BEC5; margin-top: 16px; font-size: 16px;">Waiting for Pepper to answer...</p>
+</div>
     <video id="localVideo" autoplay playsinline muted></video>
 
     <div id="topBar">
