@@ -381,11 +381,13 @@ roomRef.child("call_request").set({ ready: true, callerName: callerName });
         peerConnection.addTrack(track, localStream);
     });
 
-    peerConnection.ontrack = (event) => {
-        document.getElementById("remoteVideo").srcObject = event.streams[0];
-        setStatus("In Call ✅", "#00E676");
-        startTimer();
-    };
+  peerConnection.ontrack = (event) => {
+    document.getElementById("remoteVideo").srcObject = event.streams[0];
+    document.getElementById("waitingOverlay").style.display = "none";
+    setStatus("In Call ✅", "#00E676");
+    browserReconnectAttempts = 0;
+    startTimer();
+};
 
     peerConnection.onicecandidate = (event) => {
         if (event.candidate) {
@@ -461,6 +463,7 @@ function endCall() {
     callSeconds = 0;
     document.getElementById("callScreen").style.display = "none";
     document.getElementById("startScreen").style.display = "flex";
+    document.getElementById("waitingOverlay").style.display = "flex";
     document.getElementById("remoteVideo").srcObject = null;
     document.getElementById("localVideo").srcObject = null;
     if (localStream) {
