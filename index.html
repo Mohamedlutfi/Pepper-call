@@ -278,6 +278,73 @@
         backdrop-filter: blur(10px);
     ">😢</button>
 </div>
+    <!-- Chat Panel -->
+<div id="chatPanel" style="
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    background: rgba(13,13,26,0.95);
+    display: none;
+    flex-direction: column;
+    padding: 16px;
+    z-index: 20;
+">
+    <h3 style="color: white; margin-bottom: 12px; font-size: 16px;">💬 Chat</h3>
+    
+    <div id="chatMessages" style="
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 12px;
+    "></div>
+
+    <div style="display: flex; gap: 8px;">
+        <input 
+            id="chatInput"
+            type="text"
+            placeholder="Type a message..."
+            style="
+                flex: 1;
+                background: rgba(255,255,255,0.1);
+                border: 1px solid rgba(255,255,255,0.2);
+                border-radius: 20px;
+                padding: 8px 16px;
+                color: white;
+                font-size: 14px;
+                outline: none;
+            "
+        />
+        <button onclick="sendMessage()" style="
+            background: #00E676;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        ">➤</button>
+    </div>
+</div>
+
+<!-- Chat toggle button -->
+<button id="chatToggleBtn" onclick="toggleChat()" style="
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 30;
+">💬</button>
     <div id="bottomBar">
         <button id="muteButton" onclick="toggleMute()">🎤</button>
         <button id="endButton" onclick="endCall()">✕</button>
@@ -340,6 +407,7 @@ const iceServers = {
     ]
 };
 async function startCall() {
+
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("callScreen").style.display = "block";
 
@@ -362,7 +430,7 @@ document.getElementById("localVideo").srcObject = localStream;
 
     // Send call request with Name
 const callerName = document.getElementById("callerNameInput").value.trim() || "Unknown Caller";
-await sendPushNotification(callerName);
+callerDisplayName = callerName;
 roomRef.child("call_request").set({ ready: true, callerName: callerName });
 
     // Listen for PIN error
@@ -381,13 +449,15 @@ roomRef.child("call_request").set({ ready: true, callerName: callerName });
         peerConnection.addTrack(track, localStream);
     });
 
-  peerConnection.ontrack = (event) => {
+peerConnection.ontrack = (event) => {
     document.getElementById("remoteVideo").srcObject = event.streams[0];
     document.getElementById("waitingOverlay").style.display = "none";
     setStatus("In Call ✅", "#00E676");
     browserReconnectAttempts = 0;
     startTimer();
+    listenForMessages();
 };
+
 
     peerConnection.onicecandidate = (event) => {
         if (event.candidate) {
@@ -449,6 +519,63 @@ roomRef.child("call_rejected").on("value", (snapshot) => {
     }
 });
 }
+    let isChatOpen = false;
+let callerDisplayName = "Caller";
+
+function toggleChat() {
+    isChatOpen = !isChatOpen;
+    document.getElementById("chatPanel").style.display = 
+        isChatOpen ? "flex" : "none";
+}
+
+function sendMessage() {
+    const input = document.getElementById("chatInput");
+    const message = input.value.trim();
+    if (!message) return;
+    input.value = "";
+
+    roomRef.child("chat").push({
+        sender: callerDisplayName,
+        message: message,
+        timestamp: Date.now()
+    });
+}
+
+function listenForMessages() {
+    roomRef.child("chat").on("child_added", (snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+        addMessageToChat(data.sender, data.message);
+    });
+}
+
+function addMessageToChat(sender, message) {
+    const isPepper = sender === "Pepper";
+    const messagesDiv = document.getElementById("chatMessages");
+
+    const msgEl = document.createElement("div");
+    msgEl.style.cssText = `
+        background: ${isPepper ? "rgba(0,230,118,0.2)" : "rgba(255,255,255,0.1)"};
+        border-radius: 12px;
+        padding: 8px 12px;
+        max-width: 85%;
+        align-self: ${isPepper ? "flex-start" : "flex-end"};
+        font-size: 13px;
+        color: white;
+    `;
+    msgEl.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    messagesDiv.appendChild(msgEl);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+    // Auto open chat when message received
+    if (!isChatOpen && isPepper) {
+        toggleChat();
+    }
+}
+
+document.getElementById("chatInput")?.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") sendMessage();
+});
 
     function toggleMute() {
         isMuted = !isMuted;
@@ -466,9 +593,13 @@ function endCall() {
     document.getElementById("waitingOverlay").style.display = "flex";
     document.getElementById("remoteVideo").srcObject = null;
     document.getElementById("localVideo").srcObject = null;
+    document.getElementById("chatMessages").innerHTML = "";
+    document.getElementById("chatPanel").style.display = "none";
+    isChatOpen = false;
     if (localStream) {
         localStream.getTracks().forEach(track => track.stop());
     }
+    
 }
 
     function setStatus(text, color) {
