@@ -19,7 +19,7 @@
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
-         margin: 0;
+            margin: 0;
         }
 
         #startScreen {
@@ -158,23 +158,23 @@
     <div class="robot-icon">🤖</div>
     <h1>Call Pepper</h1>
     <p>Enter Your name to start a call</p>
-<input
-    id="callerNameInput"
-    type="text"
-    placeholder="Your name"
-    maxlength="20"
-    style="
-        background: rgba(255,255,255,0.1);
-        border: 2px solid rgba(255,255,255,0.2);
-        border-radius: 16px;
-        padding: 16px 24px;
-        font-size: 18px;
-        color: white;
-        text-align: center;
-        width: 220px;
-        outline: none;
-    "
-/>
+    <input
+        id="callerNameInput"
+        type="text"
+        placeholder="Your name"
+        maxlength="20"
+        style="
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-size: 18px;
+            color: white;
+            text-align: center;
+            width: 220px;
+            outline: none;
+        "
+    />
     <div id="pinError" style="color:#FF5252; font-size:14px; display:none;">
         ❌ Wrong PIN. Check Pepper's screen and try again.
     </div>
@@ -183,24 +183,24 @@
 
 <!-- Call Screen -->
 <div id="callScreen">
-   <video id="remoteVideo" autoplay playsinline disablePictureInPicture 
-    style="width:100%;height:100%;object-fit:cover;background:#1A1A2E;"></video>
+    <video id="remoteVideo" autoplay playsinline disablePictureInPicture
+        style="width:100%;height:100%;object-fit:cover;background:#1A1A2E;"></video>
     <div id="waitingOverlay" style="
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #0D0D1A;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-">
-    <div style="font-size: 80px; animation: float 3s ease-in-out infinite;">🤖</div>
-    <p style="color: #B0BEC5; margin-top: 16px; font-size: 16px;">Waiting for Pepper to answer...</p>
-</div>
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0D0D1A;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+    ">
+        <div style="font-size: 80px; animation: float 3s ease-in-out infinite;">🤖</div>
+        <p style="color: #B0BEC5; margin-top: 16px; font-size: 16px;">Waiting for Pepper to answer...</p>
+    </div>
     <video id="localVideo" autoplay playsinline muted></video>
 
     <div id="topBar">
@@ -208,143 +208,140 @@
         <div id="statusText">Connecting...</div>
         <div id="timerText">00:00</div>
     </div>
-<!-- Pepper Controls -->
-<div id="controlPanel" style="
-    position: absolute;
-    top: 50%;
-    right: 16px;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-">
-    <button class="controlBtn" onclick="sendCommand('wave')" style="
-        background: rgba(255,255,255,0.15);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 52px;
-        height: 52px;
-        font-size: 22px;
-        cursor: pointer;
-        backdrop-filter: blur(10px);
-    ">👋</button>
 
-    <button class="controlBtn" onclick="sendCommand('dance')" style="
-        background: rgba(255,255,255,0.15);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 52px;
-        height: 52px;
-        font-size: 22px;
-        cursor: pointer;
-        backdrop-filter: blur(10px);
-    ">💃</button>
-
-    <button class="controlBtn" onclick="sendCommand('bow')" style="
-        background: rgba(255,255,255,0.15);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 52px;
-        height: 52px;
-        font-size: 22px;
-        cursor: pointer;
-        backdrop-filter: blur(10px);
-    ">🙇</button>
-
-    <button class="controlBtn" onclick="sendCommand('happy')" style="
-        background: rgba(255,255,255,0.15);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 52px;
-        height: 52px;
-        font-size: 22px;
-        cursor: pointer;
-        backdrop-filter: blur(10px);
-    ">😊</button>
-
-    <button class="controlBtn" onclick="sendCommand('sad')" style="
-        background: rgba(255,255,255,0.15);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 52px;
-        height: 52px;
-        font-size: 22px;
-        cursor: pointer;
-        backdrop-filter: blur(10px);
-    ">😢</button>
-</div>
-    <!-- Chat Panel -->
-<div id="chatPanel" style="
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 280px;
-    background: rgba(13,13,26,0.95);
-    display: none;
-    flex-direction: column;
-    padding: 16px;
-    z-index: 20;
-">
-    <h3 style="color: white; margin-bottom: 12px; font-size: 16px;">💬 Chat</h3>
-    
-    <div id="chatMessages" style="
-        flex: 1;
-        overflow-y: auto;
+    <!-- Pepper Controls -->
+    <div id="controlPanel" style="
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        margin-bottom: 12px;
-    "></div>
-
-    <div style="display: flex; gap: 8px;">
-        <input 
-            id="chatInput"
-            type="text"
-            placeholder="Type a message..."
-            style="
-                flex: 1;
-                background: rgba(255,255,255,0.1);
-                border: 1px solid rgba(255,255,255,0.2);
-                border-radius: 20px;
-                padding: 8px 16px;
-                color: white;
-                font-size: 14px;
-                outline: none;
-            "
-        />
-        <button onclick="sendMessage()" style="
-            background: #00E676;
+        gap: 12px;
+    ">
+        <button class="controlBtn" onclick="sendCommand('wave')" style="
+            background: rgba(255,255,255,0.15);
+            color: white;
             border: none;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            color: white;
-            font-size: 16px;
+            width: 52px;
+            height: 52px;
+            font-size: 22px;
             cursor: pointer;
-        ">➤</button>
+            backdrop-filter: blur(10px);
+        ">👋</button>
+        <button class="controlBtn" onclick="sendCommand('dance')" style="
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            font-size: 22px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        ">💃</button>
+        <button class="controlBtn" onclick="sendCommand('bow')" style="
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            font-size: 22px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        ">🙇</button>
+        <button class="controlBtn" onclick="sendCommand('happy')" style="
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            font-size: 22px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        ">😊</button>
+        <button class="controlBtn" onclick="sendCommand('sad')" style="
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            font-size: 22px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        ">😢</button>
     </div>
-</div>
 
-<!-- Chat toggle button -->
-<button id="chatToggleBtn" onclick="toggleChat()" style="
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255,255,255,0.15);
-    border: none;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 30;
-">💬</button>
+    <!-- Chat Panel -->
+    <div id="chatPanel" style="
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 280px;
+        background: rgba(13,13,26,0.95);
+        display: none;
+        flex-direction: column;
+        padding: 16px;
+        z-index: 20;
+    ">
+        <h3 style="color: white; margin-bottom: 12px; font-size: 16px;">💬 Chat</h3>
+        <div id="chatMessages" style="
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        "></div>
+        <div style="display: flex; gap: 8px;">
+            <input
+                id="chatInput"
+                type="text"
+                placeholder="Type a message..."
+                style="
+                    flex: 1;
+                    background: rgba(255,255,255,0.1);
+                    border: 1px solid rgba(255,255,255,0.2);
+                    border-radius: 20px;
+                    padding: 8px 16px;
+                    color: white;
+                    font-size: 14px;
+                    outline: none;
+                "
+            />
+            <button onclick="sendMessage()" style="
+                background: #00E676;
+                border: none;
+                border-radius: 50%;
+                width: 36px;
+                height: 36px;
+                color: white;
+                font-size: 16px;
+                cursor: pointer;
+            ">➤</button>
+        </div>
+    </div>
+
+    <!-- Chat toggle button -->
+    <button id="chatToggleBtn" onclick="toggleChat()" style="
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255,255,255,0.15);
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 30;
+    ">💬</button>
+
     <div id="bottomBar">
         <button id="muteButton" onclick="toggleMute()">🎤</button>
         <button id="endButton" onclick="endCall()">✕</button>
@@ -356,24 +353,24 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
 <script>
+    // FIX #5: Track whether the chat listener is attached so it is never
+    // stacked across reconnects. Reset to false in endCall() only.
     let isListeningForMessages = false;
-    // ===== PASTE YOUR FIREBASE CONFIG HERE =====
-const firebaseConfig = {
-    apiKey: "AIzaSyC03EyblYIQ5pEJ_3naFe-5Wr36YlQFXco",
-    authDomain: "pepper-video-call.firebaseapp.com",
-    databaseURL: "https://pepper-video-call-default-rtdb.firebaseio.com",
-    projectId: "pepper-video-call",
-    storageBucket: "pepper-video-call.firebasestorage.app",
-    messagingSenderId: "1004354627283",
-    appId: "1:1004354627283:web:86b94b9fde68f7eaf6d626"
-};
-    // ===========================================
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC03EyblYIQ5pEJ_3naFe-5Wr36YlQFXco",
+        authDomain: "pepper-video-call.firebaseapp.com",
+        databaseURL: "https://pepper-video-call-default-rtdb.firebaseio.com",
+        projectId: "pepper-video-call",
+        storageBucket: "pepper-video-call.firebasestorage.app",
+        messagingSenderId: "1004354627283",
+        appId: "1:1004354627283:web:86b94b9fde68f7eaf6d626"
+    };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
     const roomRef = db.ref("rooms/pepper-room");
     const maxBrowserReconnectAttempts = 5;
-
 
     let peerConnection;
     let localStream;
@@ -381,391 +378,87 @@ const firebaseConfig = {
     let timerInterval;
     let callSeconds = 0;
     let browserReconnectAttempts = 0;
-
-const iceServers = {
-    iceServers: [
-        { urls: "stun:stun.relay.metered.ca:80" },
-        {
-            urls: "turn:global.relay.metered.ca:80",
-            username: "efc56332ec58cdc95b508dc4",
-            credential: "rivKGcoQwrvc1cjc"
-        },
-        {
-            urls: "turn:global.relay.metered.ca:80?transport=tcp",
-            username: "efc56332ec58cdc95b508dc4",
-            credential: "rivKGcoQwrvc1cjc"
-        },
-        {
-            urls: "turn:global.relay.metered.ca:443",
-            username: "efc56332ec58cdc95b508dc4",
-            credential: "rivKGcoQwrvc1cjc"
-        },
-        {
-            urls: "turns:global.relay.metered.ca:443?transport=tcp",
-            username: "efc56332ec58cdc95b508dc4",
-            credential: "rivKGcoQwrvc1cjc"
-        }
-    ]
-};
-async function startCall() {
-
-    document.getElementById("startScreen").style.display = "none";
-    document.getElementById("callScreen").style.display = "block";
-
-localStream = await navigator.mediaDevices.getUserMedia({
-    video: {
-        width: { ideal: 480 },
-        height: { ideal: 360 },
-        frameRate: { ideal: 20 },
-        facingMode: "user"
-    },
-    audio: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        autoGainControl: true
-    }
-});
-document.getElementById("localVideo").srcObject = localStream;
-
-    peerConnection = new RTCPeerConnection(iceServers);
-
-    // Send call request with Name
-const callerName = document.getElementById("callerNameInput").value.trim() || "Unknown Caller";
-callerDisplayName = callerName;
-roomRef.child("call_request").set({ 
-    ready: true, 
-    callerName: callerName,
-    timestamp: Date.now()
-});
-
-    // Listen for PIN error
-    roomRef.child("pin_error").on("value", (snapshot) => {
-        if (snapshot.exists()) {
-            peerConnection?.close();
-            roomRef.remove();
-            document.getElementById("callScreen").style.display = "none";
-            document.getElementById("startScreen").style.display = "flex";
-            document.getElementById("pinError").style.display = "block";
-            document.getElementById("pinError").textContent = "❌ Wrong PIN. Check Pepper's screen.";
-        }
-    });
-
-    localStream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, localStream);
-    });
-
-peerConnection.ontrack = (event) => {
-    document.getElementById("remoteVideo").srcObject = event.streams[0];
-    document.getElementById("waitingOverlay").style.display = "none";
-    setStatus("In Call ✅", "#00E676");
-    browserReconnectAttempts = 0;
-    startTimer();
-    listenForMessages();
-};
-
-
-    peerConnection.onicecandidate = (event) => {
-        if (event.candidate) {
-            roomRef.child("caller_candidates").push({
-                sdpMid: event.candidate.sdpMid,
-                sdpMLineIndex: event.candidate.sdpMLineIndex,
-                sdp: event.candidate.candidate
-            });
-        }
-    };
-
-peerConnection.oniceconnectionstatechange = () => {
-    const state = peerConnection.iceConnectionState;
-    console.log("ICE state:", state);
-    if (state === "connected" || state === "completed") {
-        setStatus("In Call ✅", "#00E676");
-        browserReconnectAttempts = 0;
-    } else if (state === "disconnected" || state === "failed") {
-        setStatus("Reconnecting...", "#FFC107");
-        tryReconnect();
-    } else if (state === "closed") {
-        setStatus("Call Ended", "#FF5252");
-    }
-};
-
-    setStatus("Waiting for Pepper...", "#B0BEC5");
-    roomRef.child("offer").on("value", async (snapshot) => {
-        if (!snapshot.exists()) return;
-        const offer = snapshot.val();
-        if (peerConnection.signalingState !== "stable") return;
-
-        await peerConnection.setRemoteDescription(
-            new RTCSessionDescription({ type: "offer", sdp: offer.sdp })
-        );
-
-        const answer = await peerConnection.createAnswer();
-        await peerConnection.setLocalDescription(answer);
-
-        roomRef.child("answer").set({ type: "answer", sdp: answer.sdp });
-        setStatus("Connecting...", "#FFC107");
-    });
-
-    roomRef.child("pepper_candidates").on("child_added", (snapshot) => {
-        const c = snapshot.val();
-        peerConnection.addIceCandidate(new RTCIceCandidate({
-            sdpMid: c.sdpMid,
-            sdpMLineIndex: c.sdpMLineIndex,
-            candidate: c.sdp
-        }));
-    });
-roomRef.child("call_rejected").on("value", (snapshot) => {
-    if (snapshot.exists()) {
-        peerConnection?.close();
-        roomRef.remove();
-        document.getElementById("callScreen").style.display = "none";
-        document.getElementById("startScreen").style.display = "flex";
-        setStatus("No answer — try again", "#FF5252");
-        clearInterval(timerInterval);
-    }
-});
-}
+    let callerDisplayName = "Caller";
     let isChatOpen = false;
-let callerDisplayName = "Caller";
 
-function toggleChat() {
-    isChatOpen = !isChatOpen;
-    document.getElementById("chatPanel").style.display = 
-        isChatOpen ? "flex" : "none";
-}
-
-function sendMessage() {
-    const input = document.getElementById("chatInput");
-    const message = input.value.trim();
-    if (!message) return;
-    input.value = "";
-
-    roomRef.child("chat").push({
-        sender: callerDisplayName,
-        message: message,
-        timestamp: Date.now()
-    });
-}
-
-function listenForMessages() {
-    if (isListeningForMessages) return;
-    isListeningForMessages = true;
-
-    roomRef.child("chat").on("child_added", (snapshot) => {
-        const data = snapshot.val();
-        if (!data) return;
-        addMessageToChat(data.sender, data.message);
-    });
-}
-function addMessageToChat(sender, message) {
-    const isPepper = sender === "Pepper";
-    const messagesDiv = document.getElementById("chatMessages");
-
-    const msgEl = document.createElement("div");
-    msgEl.style.cssText = `
-        background: ${isPepper ? "rgba(0,230,118,0.2)" : "rgba(255,255,255,0.1)"};
-        border-radius: 12px;
-        padding: 8px 12px;
-        max-width: 85%;
-        align-self: ${isPepper ? "flex-start" : "flex-end"};
-        font-size: 13px;
-        color: white;
-    `;
-    msgEl.innerHTML = `<strong>${sender}:</strong> ${message}`;
-    messagesDiv.appendChild(msgEl);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-    // Auto open chat when message received
-    if (!isChatOpen && isPepper) {
-        toggleChat();
-    }
-}
-
-document.getElementById("chatInput")?.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") sendMessage();
-});
-
-    function toggleMute() {
-        isMuted = !isMuted;
-        localStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
-        document.getElementById("muteButton").textContent = isMuted ? "🔇" : "🎤";
-    }
-function endCall() {
-    peerConnection?.close();
-    roomRef.remove();
-    roomRef.child("call_cancelled").set(true);
-    clearInterval(timerInterval);
-    callSeconds = 0;
-    isListeningForMessages = false;
-    roomRef.child("chat").off();
-    document.getElementById("callScreen").style.display = "none";
-    document.getElementById("startScreen").style.display = "flex";
-    document.getElementById("waitingOverlay").style.display = "flex";
-    document.getElementById("remoteVideo").srcObject = null;
-    document.getElementById("localVideo").srcObject = null;
-    document.getElementById("chatMessages").innerHTML = "";
-    document.getElementById("chatPanel").style.display = "none";
-    isChatOpen = false;
-    if (localStream) {
-        localStream.getTracks().forEach(track => track.stop());
-    }
-    
-}
-
-    function setStatus(text, color) {
-        const el = document.getElementById("statusText");
-        el.textContent = text;
-        el.style.color = color;
-    }
-
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            callSeconds++;
-            const m = String(Math.floor(callSeconds / 60)).padStart(2, "0");
-            const s = String(callSeconds % 60).padStart(2, "0");
-            document.getElementById("timerText").textContent = `${m}:${s}`;
-        }, 1000);
-    }
-async function sendPushNotification(callerName) {
-    try {
-        // Get Pepper's FCM token from Firebase
-        const tokenSnapshot = await db.ref("pepper_fcm_token").get();
-        if (!tokenSnapshot.exists()) {
-            console.log("Pepper FCM token not found");
-            return;
-        }
-        const token = tokenSnapshot.val();
-
-        // Get access token using service account
-        const accessToken = await getAccessToken();
-
-        // Send notification using FCM V1 API
-        const response = await fetch(
-            "https://fcm.googleapis.com/v1/projects/pepper-video-call/messages:send",
+    const iceServers = {
+        iceServers: [
+            { urls: "stun:stun.relay.metered.ca:80" },
             {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: {
-                        token: token,
-                        data: {
-                            callerName: callerName,
-                            type: "incoming_call"
-                        },
-                        android: {
-                            priority: "high"
-                        },
-                        notification: {
-                            title: "Incoming Call",
-                            body: `${callerName} is calling Pepper`
-                        }
-                    }
-                })
+                urls: "turn:global.relay.metered.ca:80",
+                username: "efc56332ec58cdc95b508dc4",
+                credential: "rivKGcoQwrvc1cjc"
+            },
+            {
+                urls: "turn:global.relay.metered.ca:80?transport=tcp",
+                username: "efc56332ec58cdc95b508dc4",
+                credential: "rivKGcoQwrvc1cjc"
+            },
+            {
+                urls: "turn:global.relay.metered.ca:443",
+                username: "efc56332ec58cdc95b508dc4",
+                credential: "rivKGcoQwrvc1cjc"
+            },
+            {
+                urls: "turns:global.relay.metered.ca:443?transport=tcp",
+                username: "efc56332ec58cdc95b508dc4",
+                credential: "rivKGcoQwrvc1cjc"
             }
-        );
-
-        const result = await response.json();
-        console.log("Notification result:", result);
-    } catch (error) {
-        console.error("Error sending notification:", error);
-    }
-}
-
-async function getAccessToken() {
-    const serviceAccount = {
-        client_email: "pepper-video-call@appspot.gserviceaccount.com",
-        private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC4la8uZ5Zt2Fwi\nfg6ComzNJGOlTnhldsaqJA5e5+fELXVxXMxGOtBQX8zQRx+IjTGF0PNFmhy0da5A\nXENn+me2E+ksYwPKoKDDwEOsyDk5LRWw/aJm6dTwt9GISQOpLvGxyPouBfjxzAXD\n5eAzCij+IDMdtwhdHALx12dvHjPkQ21KESU+ZwE4eLKxBGkpWNH7sMKKr49viwXB\nkzLmzqRv6lQm1PCJ8wNrbBLjfeAYGfM8+G4vfsdq1t7EHYrJwE6mqTPG677BrOeT\nbyJGYzT5hOqNCdOOTgvlEzceR3uGHQZRT71A4zjdU44JeYP59v5AwXcoQlNepGjk\nyhMFmQ5NAgMBAAECggEAEn1V8q9IK4Eme4MGh5HnFaZ9P8gMOderv0vEz79poSZP\nkxcxVCCckMyD2uIg97/y871SPQjasr3uAj7rtpzn6h509zAE53VvHSSjcsmMp9xL\nBbNmYuot3R4ApGbx8a7E4aLo4pbREMF3219ptZshL5GApUuaEB+X8Os7jm8nUgg+\nOO19zdRrFyMw7/u8vuD4WEGC9h/BbgsomrqjqktF/cfXF82ad2qvtgd2duGxvpdQ\nLO+4GsqgSpbIpXZkpfyluYOd0OzNeRsLG8IMv5sASPy3dQm+o4hGnClFA2Ms0Ngg\nkyvqDq3rUEbl5fU/KPF7JjRS919Gdtilq9kSaYeVmQKBgQDyiHezXTUD5WgInY7H\nfnsQ/Yz6yQJLTLizRJJBkTfrIZr9BpRFATbXoP1LuO4LXvWhdWGdpfkpujo9V7p/\nVcgOKXhKqQ92XyGz8p8vBKtLxQSjxhPagJjvihjCrvULrm5taj0wXkpZpMTooBvB\njJFdVNjjNbZFjcv2BGSzlJki5QKBgQDC1X+jzT11INO63ea2IEtzeqP9vc7H/+Wm\nFzbW6sLduegpVEQNXWyBtdsAmBsIVU85bTM8f2S4MGs2l/QsojemwohMQMRkT0xr\nVQlfLqi3as2bpvJl144M8dH10+U/3eJ3HsxjJ9XzMGYVU4/Oc0KqOYCMjM5ziFPr\nbHDxzLz/SQKBgGS3533FJ08G5b0uMS0HiXP016cN8rXyloFb6KDx/ZbXzdVl9gzy\nBCRn5sibc7+lH7x9Upx1YJPDkowG8pwOs5WuAxZ+Pr2ZpBVmnFSaS8ibeOHKUFRd\nMyXG46F1pq3DMnidtetwPNAdbOhuFRi7l2J66dbxZ1BbImh4SpmJDE9BAoGATZPT\nGfbL5MpoY/ydM6GSSW3oxE0Ce/Ixj7uok1SwuLagcWxjGGs9nDw78nWeNeg5/mSz\nxP/4q7pjxj4k9Gy2+gh1Wt9jE4nbpNUcQTED7txw9+w2kkSNBCx5bIetvYts8/9o\nZIblEssPqqg2F38faUYyIESko64BtDjek/jwvDkCgYEAxnrloWDguJu20klNeDoI\ndbsB3YClqhmc46+eAgYuW+/kPoK0DpfnbGlg0mONMetYaOTaNF/xSoybPI8jZt5q\nE/N4hARI2F62Iy8OXfiLtqEfpd0ZSmJnWME576YnW0JKUZKELN9tj6JaMQK7rTGt\npZKpYD/TooT3qWZzldOjxtY=\n-----END PRIVATE KEY-----\n"
+        ]
     };
 
-    const now = Math.floor(Date.now() / 1000);
-    const payload = {
-        iss: serviceAccount.client_email,
-        scope: "https://www.googleapis.com/auth/firebase.messaging",
-        aud: "https://oauth2.googleapis.com/token",
-        exp: now + 3600,
-        iat: now
-    };
+    async function startCall() {
+        document.getElementById("startScreen").style.display = "none";
+        document.getElementById("callScreen").style.display = "block";
 
-    // Encode JWT
-    const header = btoa(JSON.stringify({ alg: "RS256", typ: "JWT" }));
-    const body = btoa(JSON.stringify(payload));
-    const message = `${header}.${body}`;
+        localStream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                width: { ideal: 480 },
+                height: { ideal: 360 },
+                frameRate: { ideal: 20 },
+                facingMode: "user"
+            },
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true
+            }
+        });
+        document.getElementById("localVideo").srcObject = localStream;
 
-    // Sign with private key
-    const privateKey = await crypto.subtle.importKey(
-        "pkcs8",
-        pemToArrayBuffer(serviceAccount.private_key),
-        { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-        false,
-        ["sign"]
-    );
-
-    const signature = await crypto.subtle.sign(
-        "RSASSA-PKCS1-v1_5",
-        privateKey,
-        new TextEncoder().encode(message)
-    );
-
-    const jwt = `${message}.${btoa(String.fromCharCode(...new Uint8Array(signature)))}`;
-
-    // Exchange JWT for access token
-    const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`
-    });
-
-    const tokenData = await tokenResponse.json();
-    return tokenData.access_token;
-}
-
-function pemToArrayBuffer(pem) {
-    const base64 = pem
-        .replace("-----BEGIN PRIVATE KEY-----", "")
-        .replace("-----END PRIVATE KEY-----", "")
-        .replace(/\n/g, "");
-    const binary = atob(base64);
-    const buffer = new ArrayBuffer(binary.length);
-    const view = new Uint8Array(buffer);
-    for (let i = 0; i < binary.length; i++) {
-        view[i] = binary.charCodeAt(i);
-    }
-    return buffer;
-}
-function sendCommand(command) {
-    roomRef.child("pepper_command").set({
-        command: command,
-        timestamp: Date.now()
-    });
-}
-function tryReconnect() {
-    if (browserReconnectAttempts >= maxBrowserReconnectAttempts) {
-        setStatus("Call Ended — could not reconnect", "#FF5252");
-        setTimeout(() => {
-            endCall();
-        }, 2000);
-        return;
-    }
-
-    browserReconnectAttempts++;
-    setStatus(`Reconnecting... attempt ${browserReconnectAttempts} of ${maxBrowserReconnectAttempts}`, "#FFC107");
-
-    setTimeout(() => {
-        // Clean up old connection
-        peerConnection.close();
         peerConnection = new RTCPeerConnection(iceServers);
+
+        const callerName = document.getElementById("callerNameInput").value.trim() || "Unknown Caller";
+        callerDisplayName = callerName;
+        roomRef.child("call_request").set({
+            ready: true,
+            callerName: callerName,
+            timestamp: Date.now()
+        });
+
+        roomRef.child("pin_error").on("value", (snapshot) => {
+            if (snapshot.exists()) {
+                peerConnection?.close();
+                roomRef.remove();
+                document.getElementById("callScreen").style.display = "none";
+                document.getElementById("startScreen").style.display = "flex";
+                document.getElementById("pinError").style.display = "block";
+                document.getElementById("pinError").textContent = "❌ Wrong PIN. Check Pepper's screen.";
+            }
+        });
 
         localStream.getTracks().forEach(track => {
             peerConnection.addTrack(track, localStream);
         });
 
-       peerConnection.ontrack = (event) => {
-        document.getElementById("remoteVideo").srcObject = event.streams[0];
-        setStatus("In Call ✅", "#00E676");
-        browserReconnectAttempts = 0;
-        startTimer();
+        peerConnection.ontrack = (event) => {
+            document.getElementById("remoteVideo").srcObject = event.streams[0];
+            document.getElementById("waitingOverlay").style.display = "none";
+            setStatus("In Call ✅", "#00E676");
+            browserReconnectAttempts = 0;
+            startTimer();
+            // FIX #5: listenForMessages is guarded inside so this is safe to call
+            listenForMessages();
         };
 
         peerConnection.onicecandidate = (event) => {
@@ -780,12 +473,19 @@ function tryReconnect() {
 
         peerConnection.oniceconnectionstatechange = () => {
             const state = peerConnection.iceConnectionState;
-            if (state === "disconnected" || state === "failed") {
+            console.log("ICE state:", state);
+            if (state === "connected" || state === "completed") {
+                setStatus("In Call ✅", "#00E676");
+                browserReconnectAttempts = 0;
+            } else if (state === "disconnected" || state === "failed") {
+                setStatus("Reconnecting...", "#FFC107");
                 tryReconnect();
+            } else if (state === "closed") {
+                setStatus("Call Ended", "#FF5252");
             }
         };
 
-        // Wait for new offer from Pepper
+        setStatus("Waiting for Pepper...", "#B0BEC5");
         roomRef.child("offer").on("value", async (snapshot) => {
             if (!snapshot.exists()) return;
             const offer = snapshot.val();
@@ -797,10 +497,306 @@ function tryReconnect() {
             const answer = await peerConnection.createAnswer();
             await peerConnection.setLocalDescription(answer);
             roomRef.child("answer").set({ type: "answer", sdp: answer.sdp });
+            setStatus("Connecting...", "#FFC107");
         });
 
-    }, 3000);
-}
+        roomRef.child("pepper_candidates").on("child_added", (snapshot) => {
+            const c = snapshot.val();
+            peerConnection.addIceCandidate(new RTCIceCandidate({
+                sdpMid: c.sdpMid,
+                sdpMLineIndex: c.sdpMLineIndex,
+                candidate: c.sdp
+            }));
+        });
+
+        roomRef.child("call_rejected").on("value", (snapshot) => {
+            if (snapshot.exists()) {
+                peerConnection?.close();
+                roomRef.remove();
+                document.getElementById("callScreen").style.display = "none";
+                document.getElementById("startScreen").style.display = "flex";
+                setStatus("No answer — try again", "#FF5252");
+                clearInterval(timerInterval);
+            }
+        });
+    }
+
+    function toggleChat() {
+        isChatOpen = !isChatOpen;
+        document.getElementById("chatPanel").style.display =
+            isChatOpen ? "flex" : "none";
+    }
+
+    function sendMessage() {
+        const input = document.getElementById("chatInput");
+        const message = input.value.trim();
+        if (!message) return;
+        input.value = "";
+
+        roomRef.child("chat").push({
+            sender: callerDisplayName,
+            message: message,
+            timestamp: Date.now()
+        });
+    }
+
+    function listenForMessages() {
+        // FIX #5: Guard prevents stacking a second listener on reconnect.
+        // isListeningForMessages is only reset to false in endCall() so a
+        // drop-and-reconnect within the same call session won't duplicate messages.
+        if (isListeningForMessages) return;
+        isListeningForMessages = true;
+
+        roomRef.child("chat").on("child_added", (snapshot) => {
+            const data = snapshot.val();
+            if (!data) return;
+            addMessageToChat(data.sender, data.message);
+        });
+    }
+
+    function addMessageToChat(sender, message) {
+        const isPepper = sender === "Pepper";
+        const messagesDiv = document.getElementById("chatMessages");
+
+        const msgEl = document.createElement("div");
+        msgEl.style.cssText = `
+            background: ${isPepper ? "rgba(0,230,118,0.2)" : "rgba(255,255,255,0.1)"};
+            border-radius: 12px;
+            padding: 8px 12px;
+            max-width: 85%;
+            align-self: ${isPepper ? "flex-start" : "flex-end"};
+            font-size: 13px;
+            color: white;
+        `;
+        msgEl.innerHTML = `<strong>${sender}:</strong> ${message}`;
+        messagesDiv.appendChild(msgEl);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        if (!isChatOpen && isPepper) {
+            toggleChat();
+        }
+    }
+
+    document.getElementById("chatInput")?.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendMessage();
+    });
+
+    function toggleMute() {
+        isMuted = !isMuted;
+        localStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
+        document.getElementById("muteButton").textContent = isMuted ? "🔇" : "🎤";
+    }
+
+    function endCall() {
+        peerConnection?.close();
+        roomRef.remove();
+        roomRef.child("call_cancelled").set(true);
+        clearInterval(timerInterval);
+        callSeconds = 0;
+
+        // FIX #5: Reset chat listener flag and detach the listener so the next
+        // call session starts clean without stacked handlers.
+        isListeningForMessages = false;
+        roomRef.child("chat").off();
+
+        document.getElementById("callScreen").style.display = "none";
+        document.getElementById("startScreen").style.display = "flex";
+        document.getElementById("waitingOverlay").style.display = "flex";
+        document.getElementById("remoteVideo").srcObject = null;
+        document.getElementById("localVideo").srcObject = null;
+        document.getElementById("chatMessages").innerHTML = "";
+        document.getElementById("chatPanel").style.display = "none";
+        isChatOpen = false;
+
+        if (localStream) {
+            localStream.getTracks().forEach(track => track.stop());
+        }
+    }
+
+    function setStatus(text, color) {
+        const el = document.getElementById("statusText");
+        el.textContent = text;
+        el.style.color = color;
+    }
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            callSeconds++;
+            const m = String(Math.floor(callSeconds / 60)).padStart(2, "0");
+            const s = String(callSeconds % 60).padStart(2, "0");
+            document.getElementById("timerText").textContent = `${m}:${s}`;
+        }, 1000);
+    }
+
+    async function sendPushNotification(callerName) {
+        try {
+            const tokenSnapshot = await db.ref("pepper_fcm_token").get();
+            if (!tokenSnapshot.exists()) {
+                console.log("Pepper FCM token not found");
+                return;
+            }
+            const token = tokenSnapshot.val();
+            const accessToken = await getAccessToken();
+            const response = await fetch(
+                "https://fcm.googleapis.com/v1/projects/pepper-video-call/messages:send",
+                {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: {
+                            token: token,
+                            data: {
+                                callerName: callerName,
+                                type: "incoming_call"
+                            },
+                            android: { priority: "high" },
+                            notification: {
+                                title: "Incoming Call",
+                                body: `${callerName} is calling Pepper`
+                            }
+                        }
+                    })
+                }
+            );
+            const result = await response.json();
+            console.log("Notification result:", result);
+        } catch (error) {
+            console.error("Error sending notification:", error);
+        }
+    }
+
+    async function getAccessToken() {
+        const serviceAccount = {
+            client_email: "pepper-video-call@appspot.gserviceaccount.com",
+            private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC4la8uZ5Zt2Fwi\nfg6ComzNJGOlTnhldsaqJA5e5+fELXVxXMxGOtBQX8zQRx+IjTGF0PNFmhy0da5A\nXENn+me2E+ksYwPKoKDDwEOsyDk5LRWw/aJm6dTwt9GISQOpLvGxyPouBfjxzAXD\n5eAzCij+IDMdtwhdHALx12dvHjPkQ21KESU+ZwE4eLKxBGkpWNH7sMKKr49viwXB\nkzLmzqRv6lQm1PCJ8wNrbBLjfeAYGfM8+G4vfsdq1t7EHYrJwE6mqTPG677BrOeT\nbyJGYzT5hOqNCdOOTgvlEzceR3uGHQZRT71A4zjdU44JeYP59v5AwXcoQlNepGjk\nyhMFmQ5NAgMBAAECggEAEn1V8q9IK4Eme4MGh5HnFaZ9P8gMOderv0vEz79poSZP\nkxcxVCCckMyD2uIg97/y871SPQjasr3uAj7rtpzn6h509zAE53VvHSSjcsmMp9xL\nBbNmYuot3R4ApGbx8a7E4aLo4pbREMF3219ptZshL5GApUuaEB+X8Os7jm8nUgg+\nOO19zdRrFyMw7/u8vuD4WEGC9h/BbgsomrqjqktF/cfXF82ad2qvtgd2duGxvpdQ\nLO+4GsqgSpbIpXZkpfyluYOd0OzNeRsLG8IMv5sASPy3dQm+o4hGnClFA2Ms0Ngg\nkyvqDq3rUEbl5fU/KPF7JjRS919Gdtilq9kSaYeVmQKBgQDyiHezXTUD5WgInY7H\nfnsQ/Yz6yQJLTLizRJJBkTfrIZr9BpRFATbXoP1LuO4LXvWhdWGdpfkpujo9V7p/\nVcgOKXhKqQ92XyGz8p8vBKtLxQSjxhPagJjvihjCrvULrm5taj0wXkpZpMTooBvB\njJFdVNjjNbZFjcv2BGSzlJki5QKBgQDC1X+jzT11INO63ea2IEtzeqP9vc7H/+Wm\nFzbW6sLduegpVEQNXWyBtdsAmBsIVU85bTM8f2S4MGs2l/QsojemwohMQMRkT0xr\nVQlfLqi3as2bpvJl144M8dH10+U/3eJ3HsxjJ9XzMGYVU4/Oc0KqOYCMjM5ziFPr\nbHDxzLz/SQKBgGS3533FJ08G5b0uMS0HiXP016cN8rXyloFb6KDx/ZbXzdVl9gzy\nBCRn5sibc7+lH7x9Upx1YJPDkowG8pwOs5WuAxZ+Pr2ZpBVmnFSaS8ibeOHKUFRd\nMyXG46F1pq3DMnidtetwPNAdbOhuFRi7l2J66dbxZ1BbImh4SpmJDE9BAoGATZPT\nGfbL5MpoY/ydM6GSSW3oxE0Ce/Ixj7uok1SwuLagcWxjGGs9nDw78nWeNeg5/mSz\nxP/4q7pjxj4k9Gy2+gh1Wt9jE4nbpNUcQTED7txw9+w2kkSNBCx5bIetvYts8/9o\nZIblEssPqqg2F38faUYyIESko64BtDjek/jwvDkCgYEAxnrloWDguJu20klNeDoI\ndbsB3YClqhmc46+eAgYuW+/kPoK0DpfnbGlg0mONMetYaOTaNF/xSoybPI8jZt5q\nE/N4hARI2F62Iy8OXfiLtqEfpd0ZSmJnWME576YnW0JKUZKELN9tj6JaMQK7rTGt\npZKpYD/TooT3qWZzldOjxtY=\n-----END PRIVATE KEY-----\n"
+        };
+
+        const now = Math.floor(Date.now() / 1000);
+        const payload = {
+            iss: serviceAccount.client_email,
+            scope: "https://www.googleapis.com/auth/firebase.messaging",
+            aud: "https://oauth2.googleapis.com/token",
+            exp: now + 3600,
+            iat: now
+        };
+
+        const header = btoa(JSON.stringify({ alg: "RS256", typ: "JWT" }));
+        const body = btoa(JSON.stringify(payload));
+        const message = `${header}.${body}`;
+
+        const privateKey = await crypto.subtle.importKey(
+            "pkcs8",
+            pemToArrayBuffer(serviceAccount.private_key),
+            { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+            false,
+            ["sign"]
+        );
+
+        const signature = await crypto.subtle.sign(
+            "RSASSA-PKCS1-v1_5",
+            privateKey,
+            new TextEncoder().encode(message)
+        );
+
+        const jwt = `${message}.${btoa(String.fromCharCode(...new Uint8Array(signature)))}`;
+
+        const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`
+        });
+
+        const tokenData = await tokenResponse.json();
+        return tokenData.access_token;
+    }
+
+    function pemToArrayBuffer(pem) {
+        const base64 = pem
+            .replace("-----BEGIN PRIVATE KEY-----", "")
+            .replace("-----END PRIVATE KEY-----", "")
+            .replace(/\n/g, "");
+        const binary = atob(base64);
+        const buffer = new ArrayBuffer(binary.length);
+        const view = new Uint8Array(buffer);
+        for (let i = 0; i < binary.length; i++) {
+            view[i] = binary.charCodeAt(i);
+        }
+        return buffer;
+    }
+
+    function sendCommand(command) {
+        roomRef.child("pepper_command").set({
+            command: command,
+            timestamp: Date.now()
+        });
+    }
+
+    function tryReconnect() {
+        if (browserReconnectAttempts >= maxBrowserReconnectAttempts) {
+            setStatus("Call Ended — could not reconnect", "#FF5252");
+            setTimeout(() => { endCall(); }, 2000);
+            return;
+        }
+
+        browserReconnectAttempts++;
+        setStatus(`Reconnecting... attempt ${browserReconnectAttempts} of ${maxBrowserReconnectAttempts}`, "#FFC107");
+
+        setTimeout(() => {
+            peerConnection.close();
+            peerConnection = new RTCPeerConnection(iceServers);
+
+            localStream.getTracks().forEach(track => {
+                peerConnection.addTrack(track, localStream);
+            });
+
+            peerConnection.ontrack = (event) => {
+                document.getElementById("remoteVideo").srcObject = event.streams[0];
+                document.getElementById("waitingOverlay").style.display = "none";
+                setStatus("In Call ✅", "#00E676");
+                browserReconnectAttempts = 0;
+                startTimer();
+                // FIX #1: Call listenForMessages() in the reconnect ontrack handler.
+                // Previously this was missing here, so chat would silently stop
+                // working after any reconnect within the same call session.
+                listenForMessages();
+            };
+
+            peerConnection.onicecandidate = (event) => {
+                if (event.candidate) {
+                    roomRef.child("caller_candidates").push({
+                        sdpMid: event.candidate.sdpMid,
+                        sdpMLineIndex: event.candidate.sdpMLineIndex,
+                        sdp: event.candidate.candidate
+                    });
+                }
+            };
+
+            peerConnection.oniceconnectionstatechange = () => {
+                const state = peerConnection.iceConnectionState;
+                if (state === "disconnected" || state === "failed") {
+                    tryReconnect();
+                }
+            };
+
+            roomRef.child("offer").on("value", async (snapshot) => {
+                if (!snapshot.exists()) return;
+                const offer = snapshot.val();
+                if (peerConnection.signalingState !== "stable") return;
+
+                await peerConnection.setRemoteDescription(
+                    new RTCSessionDescription({ type: "offer", sdp: offer.sdp })
+                );
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
+                roomRef.child("answer").set({ type: "answer", sdp: answer.sdp });
+            });
+
+        }, 3000);
+    }
 </script>
 
 </body>
